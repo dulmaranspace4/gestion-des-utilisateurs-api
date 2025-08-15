@@ -14,7 +14,10 @@ app.use(bodyParser.json());
 // Connexion à la base de données
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connecté à MongoDB'))
-  .catch(err => console.error('Erreur de connexion à MongoDB:', err));
+  .catch(err => {
+    console.error('Erreur de connexion à MongoDB:', err);
+    process.exit(1); // Exit the process if the connection fails
+  });
 
 // Modèle d'utilisateur
 const UserSchema = new mongoose.Schema({

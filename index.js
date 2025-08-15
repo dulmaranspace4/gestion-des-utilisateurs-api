@@ -34,7 +34,7 @@ app.post('/api/utilisateurs', async (req, res) => {
     return res.status(400).send('Le mot de passe est requis');
   }
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password.trim(), 10); // Ensure password is trimmed before hashing
     const user = new User({ username, password: hashedPassword });
     await user.save();
     res.status(201).send(user);
@@ -49,7 +49,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(400).send('Le mot de passe est requis');
   }
   const user = await User.findOne({ username });
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!user || !(await bcrypt.compare(password.trim(), user.password))) { // Ensure password is trimmed before comparison
     return res.status(401).send('Accès non autorisé');
   }
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);

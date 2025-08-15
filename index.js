@@ -27,10 +27,14 @@ const User = mongoose.model('User', UserSchema);
 // API endpoints
 app.post('/api/utilisateurs', async (req, res) => {
   const { username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new User({ username, password: hashedPassword });
-  await user.save();
-  res.status(201).send(user);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, password: hashedPassword });
+    await user.save();
+    res.status(201).send(user);
+  } catch (error) {
+    res.status(400).send('Erreur de création d\'utilisateur: ' + error.message);
+  }
 });
 
 app.post('/api/login', async (req, res) => {

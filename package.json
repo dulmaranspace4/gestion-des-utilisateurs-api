@@ -1,0 +1,17 @@
+{
+  "name": "gestion-des-utilisateurs-api",
+  "version": "1.0.0",
+  "description": "Une API REST pour la gestion des utilisateurs, permettant l'inscription, la connexion et la gestion des profils.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "dotenv": "^8.2.0"
+  }
+}

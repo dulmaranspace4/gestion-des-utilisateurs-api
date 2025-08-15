@@ -27,6 +27,9 @@ const User = mongoose.model('User', UserSchema);
 // API endpoints
 app.post('/api/utilisateurs', async (req, res) => {
   const { username, password } = req.body;
+  if (!password || password.trim() === '') {
+    return res.status(400).send('Le mot de passe est requis');
+  }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, password: hashedPassword });
@@ -39,6 +42,9 @@ app.post('/api/utilisateurs', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
+  if (!password || password.trim() === '') {
+    return res.status(400).send('Le mot de passe est requis');
+  }
   const user = await User.findOne({ username });
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).send('Accès non autorisé');
